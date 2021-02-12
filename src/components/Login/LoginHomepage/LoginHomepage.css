@@ -1,0 +1,34 @@
+ul {
+  width: 100%;
+  align-content: center;
+  list-style: none;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  padding: 10px;
+  margin: 10px auto;
+  box-sizing: border-box;
+  display: flex;
+}
+li {
+  color: gray;
+  padding: auto;
+  margin: auto;
+}
+li:hover {
+  color: green;
+  background-color: lightgreen;
+}
+.all {
+  width: auto;
+  line-height: 30px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 60px;
+  padding: 100px;
+  background: rgb(243, 237, 237);
+  border-radius: 15px;
+}
+h2 {
+  color: rgb(0, 0, 0);
+  background-color: lightblue;
+}

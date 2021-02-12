@@ -1,0 +1,14 @@
+h3 {
+  color: rgb(0, 0, 0);
+  background-color: lightblue;
+}
+.rpage1 {
+  width: 400px;
+  line-height: 30px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 50px;
+  padding: 80px;
+  background: rgb(206, 211, 206);
+  border-radius: 15px;
+}

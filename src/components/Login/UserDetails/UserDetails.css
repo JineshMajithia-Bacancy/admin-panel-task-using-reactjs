@@ -1,0 +1,22 @@
+table {
+  width: 100%;
+  align-content: center;
+  padding: 2px;
+}
+table,
+tr,
+th,
+td {
+  border: 2px solid black;
+}
+
+.details {
+  width: auto;
+  line-height: 30px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 60px;
+  padding: 100px;
+  background: rgb(243, 237, 237);
+  border-radius: 15px;
+}
