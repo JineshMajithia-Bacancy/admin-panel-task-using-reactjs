@@ -17,6 +17,23 @@ class UserDetails extends Component {
     ));
     return (
       <div className="details">
+        <ul>
+          <li>
+            {" "}
+            <NavLink to="/Login/LoginHomepage">Home </NavLink>
+          </li>
+          <li>
+            {" "}
+            <NavLink to="/Login/UserDetails">User details</NavLink>
+          </li>
+          <li>
+            <NavLink to="/Login/EducationDetails">User education</NavLink>
+          </li>
+          <li>
+            {" "}
+            <NavLink to="/Login">Log out</NavLink>
+          </li>
+        </ul>
         <table>
           <thead>
             <tr>
@@ -29,9 +46,9 @@ class UserDetails extends Component {
           </thead>
           <tbody>{data}</tbody>
         </table>
-        <h5>
+        {/*<h5>
           <NavLink to="/Login/LoginHomepage"> Go to Home Page</NavLink>
-        </h5>
+        </h5>*/}
       </div>
     );
   }

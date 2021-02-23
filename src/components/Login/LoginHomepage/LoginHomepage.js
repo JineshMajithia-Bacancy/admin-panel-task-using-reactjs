@@ -9,7 +9,7 @@ class LoggedIn extends Component {
     let activeLname = localStorage.getItem("activeLname");
     return (
       <div className="all">
-        <h5>You have successfully logged in</h5>
+        <h5>You have successfully logged in. :)</h5>
         <ul>
           <li>
             {" "}

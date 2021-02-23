@@ -206,10 +206,8 @@ class demo extends React.Component {
       educationInfo[i] = {};
       for (let ele in values[i]) educationInfo[i][ele] = values[i][ele].value;
     }
-    console.log("REG 2", educationInfo);
 
     let userInfo = JSON.parse(localStorage.getItem("info"));
-    console.log("Userinfo", userInfo);
 
     let localUserInfo = JSON.parse(localStorage.getItem("allInfo"));
     if (localUserInfo) {
@@ -227,6 +225,7 @@ class demo extends React.Component {
   }
 
   render() {
+    console.log("valid", this.state.isValidForSubmit);
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Please enter your educational details.</h3>
@@ -238,7 +237,7 @@ class demo extends React.Component {
           onClick={this.addClick.bind(this)}
         />
         <input
-          isDisabled={this.isValidForSubmit}
+          isDisabled={!this.state.isValidForSubmit}
           type="submit"
           value="Submit"
         />

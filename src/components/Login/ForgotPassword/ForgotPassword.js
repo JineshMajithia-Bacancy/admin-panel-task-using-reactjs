@@ -67,19 +67,20 @@ class ForgotPassword extends Component {
     if (newPassfromstate.trim() === "" || emailfromstate.trim() === "") {
       alert("Enter some input in both fields");
     } else {
-      let allinfo = JSON.parse(localStorage.getItem("allinfo"));
+      let allinfo = JSON.parse(localStorage.getItem("allInfo"));
       for (let index in allinfo) {
         let i = allinfo[index];
-        let j = i["Info"];
+        let j = i["UserInfo"];
         let email = j["email"];
         console.log("Email = ", email);
         let oldpass = j["password"];
         if (emailfromstate === email) {
           console.log(j);
           j["password"] = newPassfromstate;
+          j["confirmpassword"] = newPassfromstate;
           console.log(j["password"]);
-          alert("Password changed successfully!!");
-          localStorage.setItem("allinfo", JSON.stringify(allinfo));
+          alert("Password changed successfully !!");
+          localStorage.setItem("allInfo", JSON.stringify(allinfo));
         }
         this.props.history.push("/");
       }
@@ -93,6 +94,7 @@ class ForgotPassword extends Component {
         para: this.state.forms[key],
       });
     }
+    console.log("form keys", formsKeys);
     return (
       <div>
         <h2>Change Your Password</h2>

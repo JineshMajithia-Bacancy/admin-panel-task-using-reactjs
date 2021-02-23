@@ -92,12 +92,15 @@ class Login extends Component {
     ));
     return (
       <div>
-        <h2>User Registration and Login</h2>
+        <h2>User Registration and Login. </h2>
+        <br />
         {formdisp}
+        <br />
         <button onClick={this.match}>Login</button>
         <button onClick={this.register}>Register </button>
+        <br />
         <NavLink to="/Login/ForgotPassword">
-          <h5>Forgot password?</h5>
+          <h5>Forgot Password ?</h5>
         </NavLink>
       </div>
     );

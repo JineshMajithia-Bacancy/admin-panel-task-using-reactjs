@@ -159,11 +159,10 @@ class EducationDetailsEdit extends Component {
         info: this.state.form2[key],
       });
     }
-    console.log("loadform", loadform[0].info);
     return (
       <div>
         <form>
-          <h2>Please enter your new details.</h2>
+          <h5>Please enter your new details.</h5>
           {loadform.map((elem) => (
             <Input
               inputtype={elem.info.type}
