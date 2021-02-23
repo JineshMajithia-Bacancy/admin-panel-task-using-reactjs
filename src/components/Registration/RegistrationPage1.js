@@ -159,8 +159,10 @@ class RegistrationPage1 extends Component {
     for (let id in this.state.forms) {
       arr[id] = this.state.forms[id].value;
     }
+    //temporary storage
     localStorage.setItem("info", JSON.stringify(arr));
-    this.props.history.push("/Registration/RegistrationPage2");
+    console.log("arr", arr);
+    this.props.history.push("/demo");
   };
   backToLogin = () => {
     this.props.history.push("/");
@@ -192,7 +194,7 @@ class RegistrationPage1 extends Component {
       });
     }
     return (
-      <div className="rpage1">
+      <div>
         <form onSubmit={this.done}>
           <h3>Please enter your personal details.</h3>
           <h3>Step 1</h3>

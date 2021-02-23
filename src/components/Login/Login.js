@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import Input from "../Input/Input";
 import "./Login.css";
+import Button from "react-bootstrap/Button";
 class Login extends Component {
   state = {
     userData: null,
@@ -9,11 +10,11 @@ class Login extends Component {
     lname: "",
     password: "",
     forms: {
-      firstname: {
+      email: {
         type: "input",
         config: {
-          placeholder: "Your Name",
-          name: "firstname",
+          placeholder: "Your Email",
+          name: "email",
         },
         value: "",
       },
@@ -39,18 +40,19 @@ class Login extends Component {
   };
   match = (e) => {
     e.preventDefault();
-    const allinfo = JSON.parse(localStorage.getItem("allinfo"));
-    const fnamefromstate = this.state.forms.firstname.value;
+    const allinfo = JSON.parse(localStorage.getItem("allInfo"));
+    const emailfromstate = this.state.forms.email.value;
     const passfromstate = this.state.forms.password.value;
     let check = false;
     for (let index in allinfo) {
       let i = allinfo[index];
-      let info = i["Info"];
+      let info = i["UserInfo"];
       console.log(info);
+      let email = info["email"];
       let fname = info["firstname"];
       let lname = info["lastname"];
       let password = info["password"];
-      if (fnamefromstate === fname && passfromstate === password) {
+      if (emailfromstate === email && passfromstate === password) {
         check = true;
         localStorage.setItem("activeFname", fname);
         localStorage.setItem("activeLname", lname);
@@ -89,13 +91,13 @@ class Login extends Component {
       </div>
     ));
     return (
-      <div className="login">
+      <div>
         <h2>User Registration and Login</h2>
         {formdisp}
         <button onClick={this.match}>Login</button>
         <button onClick={this.register}>Register </button>
         <NavLink to="/Login/ForgotPassword">
-          <h4>Forgot password?</h4>
+          <h5>Forgot password?</h5>
         </NavLink>
       </div>
     );

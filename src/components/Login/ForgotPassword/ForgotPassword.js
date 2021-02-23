@@ -6,7 +6,7 @@ class ForgotPassword extends Component {
       email: {
         type: "input",
         config: {
-          placeholder: "email",
+          placeholder: "Your Email",
           type: "text",
           name: "email",
         },
@@ -112,6 +112,9 @@ class ForgotPassword extends Component {
             </div>
           ))}
           <button onClick={this.check}>Submit</button>
+          <button onClick={() => this.props.history.push("/")}>
+            Go To Homepage
+          </button>
         </form>
       </div>
     );

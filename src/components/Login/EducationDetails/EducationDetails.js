@@ -1,22 +1,24 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import LoginHomepage from "../LoginHomepage/LoginHomepage";
 class UserEducation extends Component {
   edit = (data, index) => {
     let confirm = window.confirm("Are you sure to want to edit this record?");
     if (confirm) {
-      let sclname = data["sclname"];
+      let sclname = data["institute"];
       let course = data["course"];
-      let percent = data["percent"];
-      let sdate = data["sdate"];
-      let edate = data["edate"];
+      let percent = data["percentage"];
+      let sdate = data["startDate"];
+      let edate = data["endDate"];
       let editData = {
-        sclname: sclname,
+        institute: sclname,
         course: course,
-        percent: percent,
-        sdate: sdate,
-        edate: edate,
+        percentage: percent,
+        startDate: sdate,
+        endDate: edate,
         id: index,
       };
+      console.log("data", editData);
       localStorage.setItem("editData", JSON.stringify(editData));
       this.props.history.push("/Login/EducationDetailsEdit");
     } else {
@@ -24,7 +26,7 @@ class UserEducation extends Component {
     }
   };
   delete = (index) => {
-    const allinfo = JSON.parse(localStorage.getItem("allinfo"));
+    const allinfo = JSON.parse(localStorage.getItem("allInfo"));
     const activeindex = JSON.parse(localStorage.getItem("activeindex"));
     let i = allinfo[activeindex];
     let j = i["EduInfo"];
@@ -32,14 +34,14 @@ class UserEducation extends Component {
     if (confirm) {
       j.splice(index, 1);
       i["EduInfo"] = j;
-      localStorage.setItem("allinfo", JSON.stringify(allinfo));
+      localStorage.setItem("allInfo", JSON.stringify(allinfo));
       window.location.reload();
     } else {
       return;
     }
   };
   render() {
-    const allinfo = JSON.parse(localStorage.getItem("allinfo"));
+    const allinfo = JSON.parse(localStorage.getItem("allInfo"));
     const activeindex = localStorage.getItem("activeindex");
     let i = allinfo[activeindex];
     let j = i["EduInfo"];
@@ -47,11 +49,11 @@ class UserEducation extends Component {
     let showinfo = j.map((data, index) => {
       return (
         <tr>
-          <td> {data["sclname"].value}</td>
-          <td>{data["course"].value}</td>
-          <td>{data["percent"].value}</td>
-          <td>{data["sdate"].value}</td>
-          <td>{data["edate"].value}</td>
+          <td>{data["institute"]}</td>
+          <td>{data["course"]}</td>
+          <td>{data["percentage"]}</td>
+          <td>{data["startDate"]}</td>
+          <td>{data["endDate"]}</td>
           <td>
             <button
               onClick={() => {
@@ -90,9 +92,9 @@ class UserEducation extends Component {
           </thead>
           <tbody>{showinfo}</tbody>
         </table>
-        <h3>
+        <h5>
           <NavLink to="/Login/LoginHomepage"> Go to Home Page</NavLink>
-        </h3>
+        </h5>
       </div>
     );
   }

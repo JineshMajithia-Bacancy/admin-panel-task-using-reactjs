@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "./UserDetails.css";
+import LoginHomepage from "../LoginHomepage/LoginHomepage";
 
 class UserDetails extends Component {
   render() {
-    const allinfo = JSON.parse(localStorage.getItem("allinfo"));
+    const allinfo = JSON.parse(localStorage.getItem("allInfo"));
     let data = allinfo.map((user) => (
       <tr>
-        <td>{user.Info.firstname}</td>
-        <td>{user.Info.lastname}</td>
-        <td>{user.Info.gender}</td>
-        <td>{user.Info.email}</td>
-        <td>{user.Info.phone}</td>
+        <td>{user.UserInfo.firstname}</td>
+        <td>{user.UserInfo.lastname}</td>
+        <td>{user.UserInfo.gender}</td>
+        <td>{user.UserInfo.email}</td>
+        <td>{user.UserInfo.phone}</td>
       </tr>
     ));
     return (
@@ -28,9 +29,9 @@ class UserDetails extends Component {
           </thead>
           <tbody>{data}</tbody>
         </table>
-        <h3>
+        <h5>
           <NavLink to="/Login/LoginHomepage"> Go to Home Page</NavLink>
-        </h3>
+        </h5>
       </div>
     );
   }

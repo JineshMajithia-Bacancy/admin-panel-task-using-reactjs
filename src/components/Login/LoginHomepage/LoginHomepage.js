@@ -9,7 +9,7 @@ class LoggedIn extends Component {
     let activeLname = localStorage.getItem("activeLname");
     return (
       <div className="all">
-        <h2>You have successfully logged in</h2>
+        <h5>You have successfully logged in</h5>
         <ul>
           <li>
             {" "}
@@ -27,9 +27,9 @@ class LoggedIn extends Component {
             <NavLink to="/Login">Log out </NavLink>
           </li>
         </ul>
-        <h2>
+        <h5>
           Welcome {activeFname} {activeLname}.
-        </h2>
+        </h5>
         <Route path="/Login/UserDetails" component={UserDetails} />
       </div>
     );

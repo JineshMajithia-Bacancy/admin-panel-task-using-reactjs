@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Input from "../Input/Input";
 import "./RegistrationPage2.css";
+import { NavLink } from "react-router-dom";
+
 class RegistrationPage2 extends Component {
   state = {
     form2: {
@@ -141,10 +143,17 @@ class RegistrationPage2 extends Component {
     localStorage.removeItem("eduinfo");
     this.props.history.push("/");
   };
+
   addmore = () => {
+    let formData = {};
+    for (let formElement in this.state.form2) {
+      formData[formElement] = this.state.form2[formElement].value;
+    }
     const updatedform2 = { ...this.state.form2 };
     const addCopyData = [...this.state.addData];
-    addCopyData.push(updatedform2);
+    addCopyData.push(formData);
+    console.log("Updated Form", updatedform2);
+    console.log("Add Copy Data", addCopyData);
     localStorage.setItem("eduinfo", JSON.stringify(addCopyData));
     for (let id in updatedform2) {
       updatedform2[id].touched = false;
@@ -165,31 +174,87 @@ class RegistrationPage2 extends Component {
         info: this.state.form2[key],
       });
     }
+    const allinfo = JSON.parse(localStorage.getItem("allinfo"));
+    let i = allinfo[0];
+    let j = i["EduInfo"];
+    console.log(j);
+    let showinfo = j.map((data, index) => {
+      return (
+        <tr>
+          <td> {data["sclname"].value}</td>
+          <td>{data["course"].value}</td>
+          <td>{data["percent"].value}</td>
+          <td>{data["sdate"].value}</td>
+          <td>{data["edate"].value}</td>
+          <td>
+            <button
+              onClick={() => {
+                this.edit(data, index);
+              }}
+            >
+              Edit
+            </button>
+          </td>
+          <td>
+            <button
+              className="danger"
+              onClick={() => {
+                this.delete(index);
+              }}
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      );
+    });
+
     return (
-      <div className="rpage2">
-        <form>
-          <h3>Please enter your education details.</h3>
-          <h3>Step 2</h3>
-          {loadform.map((elem) => (
-            <Input
-              inputtype={elem.info.type}
-              configuration={elem.info.config}
-              value={elem.info.value}
-              key={elem.id}
-              valid={!elem.info.valid}
-              shouldvalidate={elem.info.validation}
-              touched={elem.info.touched}
-              changed={(event) => this.onchangeHandler(event, elem.id)}
-            />
-          ))}
-        </form>
-        <button onClick={this.addmore} disabled={!this.state.formisValid}>
-          Add more education
-        </button>
-        <button onClick={this.back}>Previous</button>
-        <button disabled={!this.state.formisValid} onClick={this.submitted}>
-          Register Me
-        </button>
+      <div>
+        <div className="details">
+          <table>
+            <thead>
+              <tr>
+                <th>School/College</th>
+                <th>Course</th>
+                <th>Percentage</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th colSpan="2">EDIT | DELETE</th>
+              </tr>
+            </thead>
+            <tbody>{showinfo}</tbody>
+          </table>
+          <h3>
+            <NavLink to="/Login/LoginHomepage"> Go to Home Page</NavLink>
+          </h3>
+        </div>
+
+        <div className="rpage2">
+          <form>
+            <h3>Please enter your education details.</h3>
+            <h3>Step 2</h3>
+            {loadform.map((elem) => (
+              <Input
+                inputtype={elem.info.type}
+                configuration={elem.info.config}
+                value={elem.info.value}
+                key={elem.id}
+                valid={!elem.info.valid}
+                shouldvalidate={elem.info.validation}
+                touched={elem.info.touched}
+                changed={(event) => this.onchangeHandler(event, elem.id)}
+              />
+            ))}
+          </form>
+          <button onClick={this.addmore} disabled={!this.state.formisValid}>
+            Add more education
+          </button>
+          <button onClick={this.back}>Previous</button>
+          <button disabled={!this.state.formisValid} onClick={this.submitted}>
+            Register Me
+          </button>
+        </div>
       </div>
     );
   }

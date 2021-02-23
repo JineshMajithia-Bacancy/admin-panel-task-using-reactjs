@@ -4,11 +4,11 @@ import "../../Registration/RegistrationPage2.css";
 class EducationDetailsEdit extends Component {
   state = {
     form2: {
-      sclname: {
+      institute: {
         type: "input",
         config: {
           placeholder: "Institute/School Name",
-          name: "sclname",
+          name: "institute",
         },
         value: "",
         valid: false,
@@ -17,11 +17,11 @@ class EducationDetailsEdit extends Component {
           required: true,
         },
       },
-      percent: {
+      percentage: {
         type: "input",
         config: {
           placeholder: "Percentage/CGPA",
-          name: "percent",
+          name: "percentage",
         },
         value: "",
         valid: false,
@@ -46,7 +46,7 @@ class EducationDetailsEdit extends Component {
           required: true,
         },
       },
-      sdate: {
+      startDate: {
         type: "date",
         config: {
           name: "start date",
@@ -58,7 +58,7 @@ class EducationDetailsEdit extends Component {
           required: true,
         },
       },
-      edate: {
+      endDate: {
         type: "date",
         config: {
           name: "end date",
@@ -97,7 +97,7 @@ class EducationDetailsEdit extends Component {
 
     if (rules.echeck) {
       let edate = value;
-      let sdate = this.state.form2.sdate.value;
+      let sdate = this.state.form2.startDate.value;
       if (edate < sdate) {
         isValid = !isValid;
       }
@@ -122,18 +122,18 @@ class EducationDetailsEdit extends Component {
   };
   submitted = (e) => {
     e.preventDefault();
-    let allinfos = JSON.parse(localStorage.getItem("allinfo"));
+    let allinfos = JSON.parse(localStorage.getItem("allInfo"));
     let userId = localStorage.getItem("activeindex");
     let info = allinfos[userId];
     let d1 = info["EduInfo"];
     let d2 = d1[this.state.id];
-    d2["sclname"].value = this.state.form2["sclname"].value;
-    d2["course"].value = this.state.form2["course"].value;
-    d2["percent"].value = this.state.form2["percent"].value;
-    d2["sdate"].value = this.state.form2["sdate"].value;
-    d2["edate"].value = this.state.form2["edate"].value;
+    d2["institute"] = this.state.form2["institute"].value;
+    d2["course"] = this.state.form2["course"].value;
+    d2["percentage"] = this.state.form2["percentage"].value;
+    d2["startDate"] = this.state.form2["startDate"].value;
+    d2["endDate"] = this.state.form2["endDate"].value;
 
-    localStorage.setItem("allinfo", JSON.stringify(allinfos));
+    localStorage.setItem("allInfo", JSON.stringify(allinfos));
     localStorage.removeItem("editData");
     this.props.history.push("/Login/EducationDetails");
   };
@@ -141,11 +141,12 @@ class EducationDetailsEdit extends Component {
     let editData = JSON.parse(localStorage.getItem("editData"));
     if (editData) {
       let form2 = { ...this.state.form2 };
-      form2["sclname"] = editData.sclname;
-      form2["course"] = editData.course;
-      form2["percent"] = editData.percent;
-      form2["sdate"] = editData.sdate;
-      form2["edate"] = editData.edate;
+      form2["institute"].value = editData.institute;
+      form2["course"].value = editData.course;
+      form2["percentage"].value = editData.percentage;
+      form2["startDate"].value = editData.startDate;
+      form2["endDate"].value = editData.endDate;
+      console.log("form 2", form2);
       let id = editData["id"];
       this.setState({ form2: form2, formisValid: true, id: id });
     }
@@ -158,8 +159,9 @@ class EducationDetailsEdit extends Component {
         info: this.state.form2[key],
       });
     }
+    console.log("loadform", loadform[0].info);
     return (
-      <div className="rpage2">
+      <div>
         <form>
           <h2>Please enter your new details.</h2>
           {loadform.map((elem) => (
@@ -167,7 +169,7 @@ class EducationDetailsEdit extends Component {
               inputtype={elem.info.type}
               configuration={elem.info.config}
               value={elem.info.value}
-              key={elem.id}
+              key={elem.info.id}
               valid={!elem.info.valid}
               shouldvalidate={elem.info.validation}
               touched={elem.info.touched}

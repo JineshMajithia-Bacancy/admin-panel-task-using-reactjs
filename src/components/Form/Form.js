@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import RegistrationPage1 from "../Registration/RegistrationPage1";
 import RegistrationPage2 from "../Registration/RegistrationPage2";
 import Login from "../Login/Login";
+import Demo from "../../demo";
 import LoginHomepage from "../Login/LoginHomepage/LoginHomepage";
 import UserDetails from "../Login/UserDetails/UserDetails";
 import UserEducation from "../Login/EducationDetails/EducationDetails";
@@ -19,6 +20,7 @@ class Form extends Component {
           <Route path="/Login/EducationDetailsEdit" component={Edit} />
           <Route path="/Login/LoginHomepage" component={LoginHomepage} />
           <Route path="/Login/ForgotPassword" component={ForgotPassword} />
+          <Route path="/demo" component={Demo} />
           <Route
             path="/Registration/RegistrationPage1"
             component={RegistrationPage1}
