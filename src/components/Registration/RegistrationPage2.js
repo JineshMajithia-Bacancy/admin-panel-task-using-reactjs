@@ -1,262 +1,264 @@
 import React, { Component } from "react";
-import Input from "../Input/Input";
-import "./RegistrationPage2.css";
-import { NavLink } from "react-router-dom";
+import "./RegistrationPage1.css";
 
-class RegistrationPage2 extends Component {
-  state = {
-    form2: {
-      sclname: {
-        type: "input",
-        config: {
-          placeholder: "Institute/School Name",
-          name: "sclname",
+class RegistrationPage2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      values: [],
+      validations: {
+        institute: {
+          required: true,
         },
-        value: "",
-        valid: false,
-        touched: false,
-        validation: {
+        course: {
+          required: true,
+        },
+        percentage: {
+          required: true,
+          regex: /^([0-9]){1,2}(\.[0-9]{1,2})?$/,
+        },
+        startDate: {
+          required: true,
+        },
+        endDate: {
           required: true,
         },
       },
-      percent: {
-        type: "input",
-        config: {
-          placeholder: "Percentage/CGPA",
-          name: "percent",
-        },
-        value: "",
-        valid: false,
-        touched: false,
-        validation: {
-          required: true,
-          isNumeric: true,
-          minLength: 1,
-          isPercent: true,
-        },
-      },
-      course: {
-        type: "input",
-        config: {
-          placeholder: "Course/Stream",
-          name: "course",
-        },
-        value: "",
-        valid: false,
-        touched: false,
-        validation: {
-          required: true,
-        },
-      },
-      sdate: {
-        type: "date",
-        config: {
-          name: "start date",
-        },
-        value: "",
-        valid: false,
-        touched: false,
-        validation: {
-          required: true,
-        },
-      },
-      edate: {
-        type: "date",
-        config: {
-          name: "end date",
-        },
-        value: "",
-        valid: false,
-        touched: false,
-        validation: {
-          required: true,
-          echeck: true,
-        },
-      },
-    },
-    formisValid: false,
-    addData: [],
-    pushData: [],
+      isFormValid: false,
+      isValidForSubmit: false,
+      message: "",
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  createUI = () => {
+    let style = {
+      color: "white",
+      backgroundColor: "#ff2f3c",
+      fontSize: "large",
+      fontWeight: "bold",
+      position: "relative",
+      left: "500px",
+    };
+    return this.state.values.map((el, i) => (
+      <div key={i}>
+        <table>
+          <tr>
+            <th>Institute:</th>
+            <td>
+              <input
+                key={i * Math.random()}
+                type="text"
+                name="institute"
+                value={el.institute ? el.institute.value : ""}
+                onChange={this.handleChange.bind(this, i)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Course:</th>
+            <td>
+              <input
+                key={i * Math.random()}
+                type="text"
+                name="course"
+                value={el.course ? el.course.value : ""}
+                onChange={this.handleChange.bind(this, i)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Percentage/CGPA:</th>
+            <td>
+              <input
+                key={i * Math.random()}
+                type="text"
+                name="percentage"
+                value={el.percentage ? el.percentage.value : ""}
+                onChange={this.handleChange.bind(this, i)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>Start Date:</th>
+            <td>
+              <input
+                key={i * Math.random()}
+                type="date"
+                name="startDate"
+                value={el.startDate ? el.startDate.value : ""}
+                onChange={this.handleChange.bind(this, i)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>End Date:</th>
+            <td>
+              <input
+                key={i * Math.random()}
+                type="date"
+                name="endDate"
+                value={el.endDate ? el.endDate.value : ""}
+                onChange={this.handleChange.bind(this, i)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                key={i * Math.random()}
+                type="button"
+                style={style}
+                value="remove"
+                onClick={this.removeClick.bind(this, i)}
+              />
+            </td>
+          </tr>
+        </table>
+      </div>
+    ));
   };
-  checkValidity = (value, rules) => {
-    let isValid = true;
-    if (!rules) {
-      return true;
-    }
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-    if (rules.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid;
-    }
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if (rules.isPercent) {
-      let pattern = /^([0-9]){1,2}(\.[0-9]{1,2})?$/;
-      isValid = pattern.test(value) && isValid;
-    }
 
-    if (rules.echeck) {
-      let edate = value;
-      let sdate = this.state.form2.sdate.value;
-      if (edate < sdate) {
-        isValid = !isValid;
+  checkValidity = (rules, value) => {
+    let valid = true;
+    if (rules.required) {
+      if (value === "") valid = valid && false;
+    }
+    if (rules.regex) {
+      valid = rules.regex.test(value) && valid;
+    }
+    return valid;
+  };
+
+  handleChange(i, event) {
+    let values = [...this.state.values];
+    let valueOb = values[i];
+    valueOb[event.target.name] = {
+      value: event.target.value,
+      touched: false,
+      valid: false,
+    };
+
+    let validations = this.state.validations;
+    let validation = validations[event.target.name];
+    valueOb[event.target.name].touched = true;
+    valueOb[event.target.name].valid = this.checkValidity(
+      validation,
+      event.target.value
+    );
+
+    if (event.target.name === "endDate") {
+      if (event.target.value && valueOb["startDate"].value) {
+        if (event.target.value < valueOb["startDate"].value) {
+          this.setState({
+            message: "End date should be greater than start date..",
+          });
+          valueOb[event.target.name].valid =
+            valueOb[event.target.name].valid && false;
+        } else {
+          this.setState({ message: "" });
+        }
       }
     }
-    return isValid;
-  };
-  onchangeHandler = (event, id) => {
-    let newforms = { ...this.state.form2 };
-    let updated = { ...newforms[id] };
-    updated.value = event.target.value;
-    updated.valid = this.checkValidity(updated.value, updated.validation);
-    updated.touched = true;
-    newforms[id] = updated;
-    let formValid = true;
+    values[i] = valueOb;
+    this.setState({ values: values });
+    //form validity assigning
+    let isFormValid = true;
+    for (let j in values) {
+      for (let ele in values[j]) {
+        isFormValid = isFormValid && values[j][ele].valid;
+      }
+    }
+    this.setState({ isFormValid: isFormValid });
+  }
 
-    for (let id in newforms) {
-      formValid = newforms[id].valid && formValid;
-    }
-    this.setState({
-      form2: newforms,
-      formisValid: formValid,
-    });
-  };
-  back = () => {
-    this.props.history.goBack();
-  };
-  submitted = (e) => {
-    e.preventDefault();
-    this.addmore();
-    let info = JSON.parse(localStorage.getItem("info"));
-    let eduinfo = JSON.parse(localStorage.getItem("eduinfo"));
-    let allinfos = JSON.parse(localStorage.getItem("allinfo"));
-    let pushData = [];
-    if (allinfos) {
-      pushData = allinfos;
-    }
-    pushData.push({ Info: info, EduInfo: eduinfo });
-    localStorage.setItem("allinfo", JSON.stringify(pushData));
-    localStorage.removeItem("info");
-    localStorage.removeItem("eduinfo");
-    this.props.history.push("/");
-  };
+  addClick() {
+    this.setState((prevState) => ({
+      values: [
+        ...prevState.values,
+        {
+          institute: {
+            value: "",
+            touched: false,
+            valid: false,
+          },
+          course: {
+            value: "",
+            touched: false,
+            valid: false,
+          },
+          percentage: {
+            value: "",
+            touched: false,
+            valid: false,
+          },
+          startDate: {
+            value: "",
+            touched: false,
+            valid: false,
+          },
+          endDate: {
+            value: "",
+            touched: false,
+            valid: false,
+          },
+        },
+      ],
+    }));
+  }
 
-  addmore = () => {
-    let formData = {};
-    for (let formElement in this.state.form2) {
-      formData[formElement] = this.state.form2[formElement].value;
+  removeClick(i) {
+    let values = [...this.state.values];
+    values.splice(i, 1);
+    this.setState({ values });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    alert("Registered Successfully...");
+    const educationInfo = [];
+    const values = this.state.values;
+    for (let i in values) {
+      educationInfo[i] = {};
+      for (let ele in values[i]) educationInfo[i][ele] = values[i][ele].value;
     }
-    const updatedform2 = { ...this.state.form2 };
-    const addCopyData = [...this.state.addData];
-    addCopyData.push(formData);
-    console.log("Updated Form", updatedform2);
-    console.log("Add Copy Data", addCopyData);
-    localStorage.setItem("eduinfo", JSON.stringify(addCopyData));
-    for (let id in updatedform2) {
-      updatedform2[id].touched = false;
-      updatedform2[id].value = "";
-      updatedform2[id].valid = false;
-    }
-    this.setState({
-      form2: updatedform2,
-      addData: addCopyData,
-      formisValid: false,
-    });
-  };
-  render() {
-    let loadform = [];
-    for (let key in this.state.form2) {
-      loadform.push({
-        id: key,
-        info: this.state.form2[key],
-      });
-    }
-    const allinfo = JSON.parse(localStorage.getItem("allinfo"));
-    let i = allinfo[0];
-    let j = i["EduInfo"];
-    console.log(j);
-    let showinfo = j.map((data, index) => {
-      return (
-        <tr>
-          <td> {data["sclname"].value}</td>
-          <td>{data["course"].value}</td>
-          <td>{data["percent"].value}</td>
-          <td>{data["sdate"].value}</td>
-          <td>{data["edate"].value}</td>
-          <td>
-            <button
-              onClick={() => {
-                this.edit(data, index);
-              }}
-            >
-              Edit
-            </button>
-          </td>
-          <td>
-            <button
-              className="danger"
-              onClick={() => {
-                this.delete(index);
-              }}
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
+
+    let userInfo = JSON.parse(localStorage.getItem("info"));
+
+    let localUserInfo = JSON.parse(localStorage.getItem("allInfo"));
+    if (localUserInfo) {
+      localUserInfo.push({ UserInfo: userInfo, EduInfo: educationInfo });
+      localStorage.setItem("allInfo", JSON.stringify(localUserInfo));
+    } else {
+      localStorage.setItem(
+        "allInfo",
+        JSON.stringify([{ UserInfo: userInfo, EduInfo: educationInfo }])
       );
-    });
+    }
+    localStorage.removeItem("info");
+    localStorage.removeItem("EduInfo");
+    this.props.history.push("/");
+  }
 
+  render() {
     return (
-      <div>
-        <div className="details">
-          <table>
-            <thead>
-              <tr>
-                <th>School/College</th>
-                <th>Course</th>
-                <th>Percentage</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th colSpan="2">EDIT | DELETE</th>
-              </tr>
-            </thead>
-            <tbody>{showinfo}</tbody>
-          </table>
-          <h3>
-            <NavLink to="/Login/LoginHomepage"> Go to Home Page</NavLink>
-          </h3>
-        </div>
-
-        <div className="rpage2">
-          <form>
-            <h3>Please enter your education details.</h3>
-            <h3>Step 2</h3>
-            {loadform.map((elem) => (
-              <Input
-                inputtype={elem.info.type}
-                configuration={elem.info.config}
-                value={elem.info.value}
-                key={elem.id}
-                valid={!elem.info.valid}
-                shouldvalidate={elem.info.validation}
-                touched={elem.info.touched}
-                changed={(event) => this.onchangeHandler(event, elem.id)}
-              />
-            ))}
-          </form>
-          <button onClick={this.addmore} disabled={!this.state.formisValid}>
-            Add more education
-          </button>
-          <button onClick={this.back}>Previous</button>
-          <button disabled={!this.state.formisValid} onClick={this.submitted}>
-            Register Me
-          </button>
-        </div>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <h3>Please enter your educational details.</h3>
+        <h3>Step 2</h3>
+        {this.createUI()}
+        <input
+          type="button"
+          value="Add Education"
+          onClick={this.addClick.bind(this)}
+        />
+        <input
+          disabled={!this.state.isFormValid}
+          type="submit"
+          value="Submit"
+        />
+      </form>
     );
   }
 }
+
 export default RegistrationPage2;

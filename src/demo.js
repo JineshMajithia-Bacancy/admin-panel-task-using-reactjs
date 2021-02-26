@@ -116,6 +116,8 @@ class demo extends React.Component {
   };
 
   checkValidity = (rules, value) => {
+    // console.log("Rules", rules);
+    //console.log("Values", value);
     let valid = true;
     if (rules.required) {
       if (value === "") valid = valid && false;
@@ -143,20 +145,36 @@ class demo extends React.Component {
       event.target.value
     );
 
+    if (event.target.name === "endDate") {
+      if (event.target.value && valueOb["startDate"].value) {
+        if (event.target.value < valueOb["startDate"].value) {
+          this.setState({
+            message: "End date should be greater than start date..",
+          });
+          valueOb[event.target.name].valid =
+            valueOb[event.target.name].valid && false;
+        } else {
+          this.setState({ message: "" });
+        }
+      }
+    }
     values[i] = valueOb;
+    console.log(valueOb);
     this.setState({ values: values });
     //form validity assigning
     let isFormValid = true;
     for (let j in values) {
       for (let ele in values[j]) {
         isFormValid = isFormValid && values[j][ele].valid;
+        console.log("Boolean", isFormValid);
+        console.log("Value", values[j][ele].value);
       }
     }
     this.setState({ isFormValid: isFormValid });
+    console.log("formValid", this.state.isFormValid);
   }
 
   addClick() {
-    this.setState({ isValidForSubmit: true });
     this.setState((prevState) => ({
       values: [
         ...prevState.values,
@@ -225,7 +243,6 @@ class demo extends React.Component {
   }
 
   render() {
-    console.log("valid", this.state.isValidForSubmit);
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Please enter your educational details.</h3>
@@ -237,7 +254,7 @@ class demo extends React.Component {
           onClick={this.addClick.bind(this)}
         />
         <input
-          isDisabled={!this.state.isValidForSubmit}
+          disabled={!this.state.isFormValid}
           type="submit"
           value="Submit"
         />

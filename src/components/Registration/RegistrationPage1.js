@@ -161,8 +161,7 @@ class RegistrationPage1 extends Component {
     }
     //temporary storage
     localStorage.setItem("info", JSON.stringify(arr));
-    console.log("arr", arr);
-    this.props.history.push("/demo");
+    this.props.history.push("/Registration/RegistrationPage2");
   };
   backToLogin = () => {
     this.props.history.push("/");
